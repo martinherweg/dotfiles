@@ -14,17 +14,18 @@ fi
 
 autoload -Uz promptinit
 promptinit
-prompt peepcode
+prompt pure
 
 #nvm
 export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
 
 #set path to brew path
 export PATH="/usr/local/bin:$PATH"
 
 . `brew --prefix`/etc/profile.d/z.sh
 
+# github access token
+export GITHUB_TOKEN='025f9905fb6cc3560bdf59ffd49e6ccf036d18ff'
 
 # Aliases
 #alias lap="ls -l | awk '{k=0;for(i=0;i<=8;i++)k+=((substr($1,i+2,1)~/[rwx]/)*2^(8-i));if(k)printf("%0o ",k);print}'
@@ -116,7 +117,7 @@ bindkey -s "^[Oj" "*"
 bindkey -s "^[Oo" "/"
 
 #homebrew php
-export PATH="$(brew --prefix homebrew/php/php55)/bin:$PATH"
+#export PATH="$(brew --prefix homebrew/php70)/bin:$PATH"
 
 # predictable location for homebrew casks
 export HOMEBREW_CASK_OPTS="--appdir=/Applications --caskroom=/opt/homebrew-cask/Caskroom"
@@ -129,7 +130,37 @@ export VISUAL=/usr/local/bin/vim
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
+# wp cli mamp
+#export MAMP_PHP=/Applications/MAMP/bin/php/php5.6.10/bin
+#export PATH="$MAMP_PHP:$PATH"
+
+
 # WP-CLI Bash completions
 autoload -U +X bashcompinit && bashcompinit
 bashcompinit
 source $HOME/.wp-cli/wp-completion.bash
+
+export NVM_DIR="/Users/martinherweg/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+#
+# http://jeromedalbert.com/migrate-from-oh-my-zsh-to-prezto/
+# custom style
+#
+# Directories
+zstyle ':completion:*:default' list-colors ''
+
+unsetopt CORRECT                      # Disable autocorrect guesses. Happens when typing a wrong
+                                      # command that may look like an existing one.
+
+expand-or-complete-with-dots() {      # This bunch of code displays red dots when autocompleting
+  echo -n "\e[31m......\e[0m"         # a command with the tab key, "Oh-my-zsh"-style.
+  zle expand-or-complete
+  zle redisplay
+}
+zle -N expand-or-complete-with-dots
+bindkey "^I" expand-or-complete-with-dots
+
+#source /Users/martinherweg/.gulp.plugin.zsh/gulp.plugin.zsh
+
+export PATH="$HOME/.yarn/bin:$PATH"

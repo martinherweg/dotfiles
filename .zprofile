@@ -55,6 +55,7 @@ path=(
     /etc/Caskroom
     /opt/homebrew-cask/Caskroom
     ~/.composer/vendor/bin
+    /Applications/MAMP/bin/php/php5.6.10/bin
     $path
 )
 
