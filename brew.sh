@@ -19,12 +19,6 @@ brew upgrade
 brew install coreutils
 sudo ln -s /usr/local/bin/gsha256sum /usr/local/bin/sha256sum
 
-# Install some other useful utilities like `sponge`.
-brew install moreutils
-# Install GNU `find`, `locate`, `updatedb`, and `xargs`, `g`-prefixed.
-brew install findutils
-# Install GNU `sed`, overwriting the built-in `sed`.
-brew install gnu-sed --with-default-names
 # Install Bash 4.
 # Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before
 # running `chsh`.
@@ -34,15 +28,18 @@ brew install bash-completion
 # Install zsh
 brew install zsh
 
-# Install `wget` with IRI support.
 brew install wget --with-iri
 
+# Install MAS CLI
+brew install mas
+
+# Install Z 
+brew install z
 
 # Install more recent versions of some OS X tools.
 brew install vim --override-system-vi
 brew install homebrew/dupes/grep
 brew install homebrew/dupes/screen
-brew install homebrew/php/php55 --with-gmp --with-mysql
 
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 vim +PluginInstall +qall
@@ -54,54 +51,60 @@ brew install ack
 brew install git
 brew install imagemagick --with-webp
 brew install p7zip
-brew install mysql
-brew install php55-mcrypt
 brew install rename
-brew install speedtest_cli
 brew install webkit2png
 brew install zopfli
-
-# Install Node.js. Note: this installs `npm` too, using the recommended
-# installation method.
-brew install node
 
 # Install Cask
 brew install caskroom/cask/brew-cask
 
 # Apps
 apps=(
+  1password
   alfred
-  dropbox
-  google-chrome
-  ColorpickerSkalacolor
-  slack
-  transmit
-  coda
-  firefox
-  hazel
-  spotify
-  vagrant
-  iterm2
-  istat-menus
-  sublime-text3
-  virtualbox
-  kaleidoscope
+  amazon-drive
+  archiver
   atom
-  sketch
-  sequel-pro
-  tower
-  vlc
-  quicklook-json
-  skype
-  ember
-  soulver
-  fantastical
-  macpaw-gemini
-  dash
-  adobe-creative-cloud
-  totalfinder
+  bartender
+  beardedspice
+  carbon-copy-cloner
+  chitchat
+  dash-dash
+  default-folder-x
   droplr
-  shortcat
+  firefox
+  flux
+  fluid
+  forklift
+  google-chrome
+  hazel
+  iconjar
+  integrity
+  imagealpha
+  istat-menus
+  iterm2
+  lingo
+  near-lock
+  opera
+  kaleidoscope
+  phpstorm
+  qbserve
+  renamer
+  rightfont
+  sequel-pro
+  sizeup
+  sketch
+  sketch-toolbox
+  sketchbook
+  slack
+  sublime-text
+  stay
+  spotify
+  totalfinder
+  tower
+  transmit
+  tripmode
+  xscope
 )
 
 # Install apps to /Applications
@@ -137,20 +140,65 @@ fonts=(
 echo "installing fonts..."
 brew cask install ${fonts[@]}
 
-#adding homestead as vagrant box
-vagrant box add laravel/homestead
+echo "Installing App Store Applications"
+mas signin martinherweg@mac.com
 
-#require homestead globally with composer
-echo "globally install homestead with composer"
-composer global require "laravel/homestead=~2.0"
+# Fantastical (1.3.18)
+mas install 435003921
 
-# install gulp
-echo "installing gulp"
-npm install --global gulp
+# Todoist (6.3.17)
+mas install 585829637
 
-#install bower
-echo "installing bower"
-npm install -g bower
+# Sip (4.4.1)
+mas install 507257563
+
+# Tweetbot (2.4.4)
+mas install 557168941
+
+# Deliveries (2.1.2)
+mas install 924726344
+
+# Affinity Designer
+mas install 824171161
+
+# Affinity Photo
+mas install 824183456
+
+# Boxy E-Mail Client
+mas install 1053031090
+
+# Copied
+mas install 1026349850
+
+# DaisyDisk
+mas install 411643860
+
+# tyme
+mas install 1063996724
+
+# bear
+mas install 1091189122
+
+# soulver
+mas install 413965349
+
+# jpegmini
+mas install 498944723
+
+# screenflow
+mas install 1107828211
+
+# iA Writer
+mas install 775737590
+
+# install global laravel installer
+composer global require "laravel/installer"
+
+# install laravel valet
+brew install homebrew/php/php70
+composer global require laravel/valet
+brew install mariadb
+brew services start mariadb
 
 # Remove outdated versions from the cellar.
 brew cleanup

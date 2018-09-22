@@ -1,0 +1,92 @@
+# make new directory and cd into it
+function md() {
+    mkdir -p "$@" && cd "$@"
+}
+
+# update hosts file
+function hup {
+  echo "127.0.0.0 $1.dev" | sudo tee -a /etc/hosts
+}
+
+# Copy w/ progress
+cp_p () {
+  rsync -WavP --human-readable --progress $1 $2
+}
+
+# Determine size of a file or total size of a directory
+function fs() {
+  if du -b /dev/null > /dev/null 2>&1; then
+    local arg=-sbh;
+  else
+    local arg=-sh;
+  fi
+  if [[ -n "$@" ]]; then
+    du $arg -- "$@";
+  else
+    du $arg .[^.]* ./*;
+  fi;
+}
+
+# Compare original and gzipped file size
+function gz() {
+  local origsize=$(wc -c < "$1");
+  local gzipsize=$(gzip -c "$1" | wc -c);
+  local ratio=$(echo "$gzipsize * 100 / $origsize" | bc -l);
+  printf "orig: %d bytes\n" "$origsize";
+  printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio";
+}
+
+# Syntax-highlight JSON strings or files
+# Usage: `json '{"foo":42}'` or `echo '{"foo":42}' | json`
+function json() {
+  if [ -t 0 ]; then # argument
+    python -mjson.tool <<< "$*" | pygmentize -l javascript;
+  else # pipe
+    python -mjson.tool | pygmentize -l javascript;
+  fi;
+}
+
+# Run `dig` and display the most useful info
+function digga() {
+  dig +nocmd "$1" any +multiline +noall +answer;
+}
+
+# `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
+# the `.git` directory, listing directories first. The output gets piped into
+# `less` with options to preserve color and line numbers, unless the output is
+# small enough for one screen.
+function tre() {
+  tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX;
+}
+
+# who is using the laptop's iSight camera?
+camerausedby() {
+  echo "Checking to see who is using the iSight camera… 📷"
+  usedby=$(lsof | grep -w "AppleCamera\|USBVDC\|iSight" | awk '{printf $2"\n"}' | xargs ps)
+  echo -e "Recent camera uses:\n$usedby"
+}
+
+# image stuff
+mv_seqnum(){
+  a=1
+  for i in $@; do
+    new=$(printf "%04d.jpg" "$a")
+    mv -- "$i" "$new"
+    let a=a+1
+  done
+}
+
+img_size_folder(){
+  mkdir $1
+  cp *.jpg $1
+  cd $1
+  mogrify -resize $2 *.jpg
+  cd ..
+}
+
+create_image_sizes(){
+  mv_seqnum
+  for i in $@; do
+    img_size_folder "$i" "$i"
+  done
+}

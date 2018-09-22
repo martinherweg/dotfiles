@@ -9,11 +9,11 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'gmarik/Vundle.vim'
-Plugin 'cakebakery/scss-syntax.vim'
+Plugin 'dracula/vim'
+Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'mattn/emmet-vim'
 Plugin 'othree/html5.vim'
-Plugin 'trusktr/seti.vim'
-
+Plugin 'trusktr/seti.vim'     
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -35,7 +35,7 @@ syntax enable
 set t_Co=256
 
 set background=dark
-colorscheme seti
+colorscheme dracula 
 
 " Set relevant filetypes
 au BufRead,BufNewFile *.md set filetype=markdown
@@ -92,16 +92,17 @@ set ruler
 " Show file title in terminal tab
 set title
 " Set relative line numbers if we can...
-if exists("+relativenumber")
+"if exists("+relativenumber")
     " Due to a problem with relative line numbers not persisting across new
     " tabs and splits, set no line numbers at all...
-    set nonumber
+  "  set nonumber
     " ..then set relative ones.
-    set relativenumber
+ "   set relativenumber
 " ...otherwise let’s just have regular ones.
-else
-    set number
-endif
+"else
+"    set number
+"endif
+set number
 " Limit line-length to 80 columns by highlighting col 81
 if exists("+colorcolumn")
     set colorcolumn=81
